@@ -1,0 +1,36 @@
+{
+  "name": "resource-container",
+  "version": "0.1.0",
+  "description": "A utility for managing Door43 Resource Containers",
+  "main": "./lib/container.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unfoldingWord-dev/node-resource-container.git"
+  },
+  "keywords": [
+    "language",
+    "translation",
+    "translationStudio"
+  ],
+  "author": "Joel Lonbeck <joel@neutrinographics.com> (http://neutrinographics.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unfoldingWord-dev/node-resource-container/issues"
+  },
+  "homepage": "https://github.com/unfoldingWord-dev/node-resource-container#readme",
+  "devDependencies": {
+    "jest": "^13.2.3"
+  },
+  "dependencies": {
+    "adm-zip": "^0.4.7",
+    "archiver": "^1.0.1",
+    "compressjs": "^1.0.3",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.5.3",
+    "tar-fs": "^1.13.0",
+    "yamljs": "^0.2.8"
+  }
+}
