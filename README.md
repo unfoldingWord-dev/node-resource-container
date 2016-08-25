@@ -5,5 +5,5 @@ A utility for managing Door43 Resource Containers
 
 ## Installation
 ```
-npm install resource-container
+npm install door43-rc
 ```
