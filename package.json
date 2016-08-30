@@ -1,6 +1,6 @@
 {
   "name": "door43-rc",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "A utility for managing Door43 Resource Containers",
   "main": "./lib/main.js",
   "scripts": {
