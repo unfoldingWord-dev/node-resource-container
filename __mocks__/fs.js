@@ -21,7 +21,7 @@ function writePath(parentDir, path, data) {
     if(files.length > 0) {
         writePath(parentDir[file].tree, files.join('/'), data);
     } else if(data) {
-        parentDir[file].content = data;
+        parentDir[file].content = data.toString();
     }
 }
 
@@ -35,16 +35,23 @@ function readPath(parentDir, path) {
     let files = path.split('/');
     let file = files.shift();
 
-    if(!parentDir[file]) throw new Error('File does not exist');
+    if(!parentDir[file]) throw new Error(path);
 
     if(files.length > 0) {
-        return readPath(parentDir[file].tree, files.join('/'));
+        try {
+            return readPath(parentDir[file].tree, files.join('/'));
+        } catch(err) {
+            throw new Error('The file does not exist: ' + path);
+        }
     } else {
         return parentDir[file];
     }
 }
 
 module.exports = {
+    get __disk() {
+        return disk;
+    },
     writeFileSync: jest.fn(writeFileSync),
     writeFile: jest.fn(function(path, contents, callback) {
         setTimeout(function() {
@@ -68,7 +75,10 @@ module.exports = {
         return files;
     }),
     statSync: jest.fn(function(path) {
-        let contents = readPath(disk, path).content;
+        let contents = null;
+        try {
+            contents = readPath(disk, path).content;
+        } catch(err){}
         return {
             isFile: jest.fn(function() {
                 return contents !== null && contents !== undefined;
