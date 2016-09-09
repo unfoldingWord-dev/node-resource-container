@@ -76,9 +76,7 @@ module.exports = {
     }),
     statSync: jest.fn(function(path) {
         let contents = null;
-        try {
-            contents = readPath(disk, path).content;
-        } catch(err){}
+        contents = readPath(disk, path).content;
         return {
             isFile: jest.fn(function() {
                 return contents !== null && contents !== undefined;

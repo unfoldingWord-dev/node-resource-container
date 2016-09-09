@@ -1,6 +1,7 @@
 'use strict';
 
 jest.mock('fs');
+jest.unmock('../lib/utils/files');
 jest.unmock('yamljs');
 jest.unmock('../lib/utils/promises');
 jest.unmock('../lib/main');
@@ -8,11 +9,12 @@ jest.unmock('../lib/main');
 describe('Container', () => {
     let fs;
     let rc;
+    let fileUtils;
 
     beforeEach(() => {
         fs = require('fs');
         rc = require('../');
-
+        fileUtils = require('../lib/utils/files');
     });
 
     it('should load a container', () => {
@@ -56,11 +58,11 @@ describe('Container', () => {
         return rc.tools.convertResource(data, 'bible_container', props)
             .then(function(container) {
                 // ensure no chunk 00 bug
-                expect(fs.statSync('bible_container/content/05/00.usfm').isFile()).toEqual(false);
-                expect(fs.statSync('bible_container/content/05/20.usfm').isFile()).toEqual(true);
-                expect(fs.statSync('bible_container/content/01/01.usfm').isFile()).toEqual(true);
-                expect(fs.statSync('bible_container/package.json').isFile()).toEqual(true);
-                expect(fs.statSync('bible_container/content/front/title.usfm').isFile()).toEqual(true);
+                expect(fileUtils.fileExists('bible_container/content/05/00.usfm')).toEqual(false);
+                expect(fileUtils.fileExists('bible_container/content/05/20.usfm')).toEqual(true);
+                expect(fileUtils.fileExists('bible_container/content/01/01.usfm')).toEqual(true);
+                expect(fileUtils.fileExists('bible_container/package.json')).toEqual(true);
+                expect(fileUtils.fileExists('bible_container/content/front/title.usfm')).toEqual(true);
             });
     });
 
@@ -89,11 +91,11 @@ describe('Container', () => {
 
         return rc.tools.convertResource(data, 'obs_container', props)
             .then(function(container) {
-                expect(fs.statSync('obs_container/content/01/title.md').isFile()).toEqual(true);
-                expect(fs.statSync('obs_container/content/01/reference.md').isFile()).toEqual(true);
-                expect(fs.statSync('obs_container/content/01/01.md').isFile()).toEqual(true);
-                expect(fs.statSync('obs_container/package.json').isFile()).toEqual(true);
-                expect(fs.statSync('obs_container/content/front/title.md').isFile()).toEqual(true);
+                expect(fileUtils.fileExists('obs_container/content/01/title.md')).toEqual(true);
+                expect(fileUtils.fileExists('obs_container/content/01/reference.md')).toEqual(true);
+                expect(fileUtils.fileExists('obs_container/content/01/01.md')).toEqual(true);
+                expect(fileUtils.fileExists('obs_container/package.json')).toEqual(true);
+                expect(fileUtils.fileExists('obs_container/content/front/title.md')).toEqual(true);
                 expect(container.config.content['10']['10'].words).toEqual(['egypt', 'god']);
             });
     });
