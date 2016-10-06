@@ -59,11 +59,11 @@ describe('Container', () => {
         return rc.tools.convertResource(data, 'bible_container', props)
             .then(function(container) {
                 // ensure no chunk 00 bug
-                expect(fileUtils.fileExists('bible_container/content/02/00.usfm')).toEqual(false);
-                expect(fileUtils.fileExists('bible_container/content/02/27.usfm')).toEqual(true);
-                expect(fileUtils.fileExists('bible_container/content/01/01.usfm')).toEqual(true);
+                expect(fileUtils.fileExists('bible_container/content/02/00.usx')).toEqual(false);
+                expect(fileUtils.fileExists('bible_container/content/02/27.usx')).toEqual(true);
+                expect(fileUtils.fileExists('bible_container/content/01/01.usx')).toEqual(true);
                 expect(fileUtils.fileExists('bible_container/package.json')).toEqual(true);
-                expect(fileUtils.fileExists('bible_container/content/front/title.usfm')).toEqual(true);
+                expect(fileUtils.fileExists('bible_container/content/front/title.usx')).toEqual(true);
             });
     });
 
