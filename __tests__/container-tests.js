@@ -71,6 +71,8 @@ describe('Container', () => {
 
     it('should localize some chapter titles', () => {
         expect(rc.tools.localizeChapterTitle("en", 1)).toEqual('Chapter 1');
+        expect(rc.tools.localizeChapterTitle("en", '01')).toEqual('Chapter 1');
+        expect(rc.tools.localizeChapterTitle("en", 'invalid')).toEqual('Chapter invalid');
         expect(rc.tools.localizeChapterTitle("en", 20)).toEqual('Chapter 20');
         expect(rc.tools.localizeChapterTitle("ar", 1)).toEqual('الفصل 1');
         expect(rc.tools.localizeChapterTitle("ar", 20)).toEqual('الفصل 20');
