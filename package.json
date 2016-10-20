@@ -30,7 +30,7 @@
     "compare-versions": "^3.0.0",
     "compressjs": "^1.0.3",
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.5.3",
+    "rimraf": "^2.5.4",
     "tar-fs": "^1.13.0",
     "yamljs": "^0.2.8"
   }

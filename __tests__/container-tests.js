@@ -1,6 +1,7 @@
 'use strict';
 
 jest.mock('fs');
+jest.mock('rimraf');
 jest.unmock('compare-versions');
 jest.unmock('../lib/utils/files');
 jest.unmock('yamljs');
@@ -64,7 +65,20 @@ describe('Container', () => {
                 expect(fileUtils.fileExists('bible_container/content/01/01.usx')).toEqual(true);
                 expect(fileUtils.fileExists('bible_container/package.json')).toEqual(true);
                 expect(fileUtils.fileExists('bible_container/content/front/title.usx')).toEqual(true);
+                expect(fileUtils.fileExists('bible_container/content/02/title.usx')).toEqual(true);
             });
+    });
+
+    it('should localize some chapter titles', () => {
+        expect(rc.tools.localizeChapterTitle("en", 1)).toEqual('Chapter 1');
+        expect(rc.tools.localizeChapterTitle("en", 20)).toEqual('Chapter 20');
+        expect(rc.tools.localizeChapterTitle("ar", 1)).toEqual('الفصل 1');
+        expect(rc.tools.localizeChapterTitle("ar", 20)).toEqual('الفصل 20');
+        expect(rc.tools.localizeChapterTitle("ru", 1)).toEqual('Глава 1');
+        expect(rc.tools.localizeChapterTitle("hu", 1)).toEqual('1. fejezet');
+        expect(rc.tools.localizeChapterTitle("sr-Latin", 1)).toEqual('Поглавље 1');
+        expect(rc.tools.localizeChapterTitle("missing", 1)).toEqual('Chapter 1');
+
     });
 
     it('should convert a legacy obs resource', () => {
