@@ -123,6 +123,51 @@ describe('Container', () => {
             });
     });
 
+    it('should convert a legacy tw resource', () => {
+        let data = JSON.stringify([{
+            aliases:["religious leaders"],
+            cf: ["priest", "jew"],
+            def: "The Jewish leaders were religious leaders, such as priests and experts in God's laws.<ul><li>Many of the religious leaders did not believe that Jesus was the Messiah and Son of God. They were jealous of Jesus and did not want other people to believe in him either.</li><li>Some of the religious leaders did believe in Jesus--especially after he rose from the dead.</li><li>Many of the religious leaders believed that they were more righteous than other people, and they were too proud to admit their sins. They lied about Jesus to the Roman rulers and demanded that he be killed.</li><li>Jesus condemned the Jewish leaders for being hypocrites. They claimed to know God, but did not obey him.</li></ul>",
+            def_title: "Facts",
+                ex: [
+                    {ref: "24-03", text: "Many <b>religious leaders</b> also came to be baptized by John, but they did not repent or confess their sins."},
+                    {ref: "37-11", text: "But the <b>religious leaders of the Jews</b> were jealous, so they gathered together to plan how they could kill Jesus and Lazarus."},
+                    {ref: "38-02", text: "He (Judas) knew that the <b>Jewish leaders</b> denied that Jesus was the Messiah and that they were plotting to kill him."}
+            ],
+            id: "jewishleaders",
+            sub: "",
+            term: "Jewish leaders"
+        }]);
+        let props = {
+            language: {
+                slug: 'en',
+                name: 'English'
+            },
+            project: {
+                slug: 'bible',
+                name: 'translationWords'
+            },
+            resource: {
+                slug: 'tw',
+                name: 'translationWords',
+                type: 'dict',
+                status: {
+                    license: 'some license'
+                }
+            },
+            modified_at: 100,
+        };
+
+        return rc.tools.convertResource(data, 'tw_container', props)
+            .then(function(container) {
+                expect(fileUtils.fileExists('tw_container/content/jewishleaders/01.md')).toEqual(true);
+                expect(fileUtils.fileExists('tw_container/package.json')).toEqual(true);
+                expect(fileUtils.fileExists('tw_container/content/front/title.md')).toEqual(false);
+                expect(container.config['jewishleaders']['def_title']).toEqual('Facts');
+                expect(container.info.modified_at).toEqual(props.modified_at);
+            });
+    });
+
     it('should convert a tA resource', () => {
         let data = JSON.stringify({
             articles: [
