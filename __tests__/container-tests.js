@@ -24,7 +24,12 @@ describe('Container', () => {
 
         fs.writeFileSync(container_path);
         fs.writeFileSync(container_path + '/package.json', JSON.stringify({
-            package_version: rc.tools.spec.version
+            package_version: rc.tools.spec.version,
+            language: {},
+            project: {},
+            resource: {
+                type: 'book'
+            }
         }));
         fs.writeFileSync(container_path + '/content/config.yml', '---');
         fs.writeFileSync(container_path + '/content/toc.yml', '---');
