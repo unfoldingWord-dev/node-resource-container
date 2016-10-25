@@ -1,6 +1,6 @@
 {
   "name": "resource-container",
-  "version": "0.10.5",
+  "version": "0.10.6",
   "description": "A utility for managing Door43 Resource Containers",
   "main": "./lib/main.js",
   "scripts": {
@@ -23,7 +23,8 @@
   "homepage": "https://github.com/unfoldingWord-dev/node-resource-container#readme",
   "devDependencies": {
     "jest": "^13.2.3",
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "ncp": "^2.0.0"
   },
   "dependencies": {
     "adm-zip": "^0.4.7",
