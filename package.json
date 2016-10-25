@@ -1,6 +1,6 @@
 {
   "name": "resource-container",
-  "version": "0.10.4",
+  "version": "0.10.5",
   "description": "A utility for managing Door43 Resource Containers",
   "main": "./lib/main.js",
   "scripts": {
@@ -30,7 +30,7 @@
     "compare-versions": "^3.0.0",
     "compressjs": "^1.0.3",
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.5.4",
+    "rimraf": "^2.5.3",
     "tar-fs": "^1.13.0",
     "yamljs": "^0.2.8"
   }
