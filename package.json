@@ -1,6 +1,6 @@
 {
   "name": "resource-container",
-  "version": "0.10.3",
+  "version": "0.10.4",
   "description": "A utility for managing Door43 Resource Containers",
   "main": "./lib/main.js",
   "scripts": {

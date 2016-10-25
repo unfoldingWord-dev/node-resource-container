@@ -242,3 +242,30 @@ describe('Container', () => {
             });
     });
 });
+
+// describe('Container fs tests', () => {
+//     let fs;
+//     let rc;
+//
+//     beforeEach(() => {
+//         jest.unmock('fs');
+//         jest.unmock('rimraf');
+//         jest.unmock('compressjs');
+//         jest.unmock('adm-zip');
+//         jest.unmock('archiver');
+//         jest.unmock('path');
+//         jest.unmock('amdefine');
+//         jest.unmock('tar-fs');
+//         jest.unmock('../lib/utils/compression');
+//         fs = require('fs');
+//         rc = require('../');
+//     });
+//
+//     it('should open a container', () => {
+//         return rc.open('test_files/en_gen_ulb.tsrc', 'temp/en_gen_ulb/')
+//             .then(function(container) {
+//                 expect(container).not.toEqual(null);
+//
+//             });
+//     });
+// });
