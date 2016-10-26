@@ -33,10 +33,19 @@ describe('Container', () => {
         }));
         fs.writeFileSync(container_path + '/content/config.yml', '---');
         fs.writeFileSync(container_path + '/content/toc.yml', '---');
+        fs.writeFileSync(container_path + '/content/01/01.txt', '1:1');
+        fs.writeFileSync(container_path + '/content/01/02.txt', '1:2');
+        fs.writeFileSync(container_path + '/content/01/03.txt', '1:3');
+        fs.writeFileSync(container_path + '/content/02/01.txt', '2:1');
+        fs.writeFileSync(container_path + '/content/02/02.txt', '2:2');
 
         return rc.load(container_path)
             .then(function(container) {
                 expect(container.path).toEqual(container_path);
+                expect(container.chapters().length).toEqual(2);
+                expect(container.chunks('01').length).toEqual(3);
+                expect(container.chunks('02').length).toEqual(2);
+                expect(container.readChunk('01', '03')).toEqual('1:3');
             });
     });
 
