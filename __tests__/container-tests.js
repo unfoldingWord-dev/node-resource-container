@@ -123,6 +123,9 @@ describe('Container', () => {
         expect(rc.tools.normalizeSlug('12')).toEqual('12');
         expect(rc.tools.normalizeSlug('123')).toEqual('123');
         expect(rc.tools.normalizeSlug('00123')).toEqual('123');
+        expect(rc.tools.normalizeSlug('a')).toEqual('a');
+        expect(rc.tools.normalizeSlug('word')).toEqual('word');
+        expect(rc.tools.normalizeSlug('00word')).toEqual('00word');
     });
 
     it('should convert a legacy obs resource', () => {
