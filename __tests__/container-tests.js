@@ -97,6 +97,34 @@ describe('Container', () => {
 
     });
 
+    it('should normalize a slug', () => {
+        try {
+            rc.tools.normalizeSlug('');
+            expect(false).toEqual(true);
+        } catch (err) {
+            expect(err).not.toBeNull();
+        }
+        try {
+            rc.tools.normalizeSlug(null);
+            expect(false).toEqual(true);
+        } catch (err) {
+            expect(err).not.toBeNull();
+        }
+        try {
+            rc.tools.normalizeSlug({});
+            expect(false).toEqual(true);
+        } catch (err) {
+            expect(err).not.toBeNull();
+        }
+        expect(rc.tools.normalizeSlug('1')).toEqual('01');
+        expect(rc.tools.normalizeSlug('00001')).toEqual('01');
+        expect(rc.tools.normalizeSlug('0')).toEqual('00');
+        expect(rc.tools.normalizeSlug('00')).toEqual('00');
+        expect(rc.tools.normalizeSlug('12')).toEqual('12');
+        expect(rc.tools.normalizeSlug('123')).toEqual('123');
+        expect(rc.tools.normalizeSlug('00123')).toEqual('123');
+    });
+
     it('should convert a legacy obs resource', () => {
         let data = JSON.stringify({"chapters": [{"frames": [{"id": "01-01", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-01.jpg", "text": "This is how the beginning of everything happened. God created the universe and everything in it in six days. After God created the earth it was dark and empty, and nothing had been formed in it. But God\u2019s Spirit was there over the water."}, {"id": "01-02", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-02.jpg", "text": "Then God said, \u201cLet there be light!\u201d And there was light. God saw that the light was good and called it \u201cday.\u201d He separated it from the darkness, which he called \u201cnight.\u201d God created the light on the first day of creation."}, {"id": "01-03", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-03.jpg", "text": "On the second day of creation, God spoke and created the sky above the earth. He made the sky by separating the water above from the water below."}, {"id": "01-04", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-04.jpg", "text": "On the third day, God spoke and separated the water from the dry land. He called the dry land \u201cearth,\u201d and he called the water \u201cseas.\u201d God saw that what he had created was good."}, {"id": "01-05", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-05.jpg", "text": "Then God said, \u201cLet the earth produce all kinds of trees and plants.\u201d And that is what happened. God saw that what he had created was good."}, {"id": "01-06", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-06.jpg", "text": "On the fourth day of creation, God spoke and made the sun, the moon, and the stars. God made them to give light to the earth and to mark day and night, seasons and years. God saw that what he had created was good."}, {"id": "01-07", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-07.jpg", "text": "On the fifth day, God spoke and made everything that swims in the water and all the birds. God saw that it was good, and he blessed them."}, {"id": "01-08", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-08.jpg", "text": "On the sixth day of creation, God said, \u201cLet there be all kinds of land animals!\u201d And it happened just like God said. Some were farm animals, some crawled on the ground, and some were wild. And God saw that it was good."}, {"id": "01-09", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-09.jpg", "text": "Then God said, \u201cLet us make human beings in our image to be like us. They will have authority over the earth and all the animals.\u201d"}, {"id": "01-10", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-10.jpg", "text": "So God took some dirt, formed it into a man, and breathed life into him. This man\u2019s name was Adam. God planted a garden where Adam could live, and put him there to care for it."}, {"id": "01-11", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-11.jpg", "text": "In the middle of the garden, God planted two special trees\u2014the tree of life and the tree of the knowledge of good and evil. God told Adam that he could eat from any tree in the garden except from the tree of the knowledge of good and evil. If he ate from this tree, he would die."}, {"id": "01-12", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-12.jpg", "text": "Then God said, \u201cIt is not good for man to be alone.\u201d But none of the animals could be Adam\u2019s helper."}, {"id": "01-13", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-13.jpg", "text": "So God made Adam fall into a deep sleep. Then God took one of Adam\u2019s ribs and made it into a woman and brought her to him."}, {"id": "01-14", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-14.jpg", "text": "When Adam saw her, he said, \u201cAt last! This one is like me! Let her be called \u2018Woman,\u2019 for she was made from Man.\u201d This is why a man leaves his father and mother and becomes one with his wife."}, {"id": "01-15", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-15.jpg", "text": "God made man and woman in his own image. He blessed them and told them, \u201cHave many children and grandchildren and fill the earth!\u201d And God saw that everything he had made was very good, and he was very pleased with all of it. This all happened on the sixth day of creation."}, {"id": "01-16", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-01-16.jpg", "text": "When the seventh day came, God had finished his work. So God rested from all he had been doing. He blessed the seventh day and made it holy, because on this day he rested from his work. This is how God created the universe and everything in it."}], "number": "01", "ref": "A Bible story from: Genesis 1-2", "title": "1. The Creation"}, {"frames": [{"id": "02-01", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-01.jpg", "text": "Adam and his wife were very happy living in the beautiful garden God had made for them. Neither of them wore clothes, but this did not cause them to feel any shame, because there was no sin in the world. They often walked in the garden and talked with God."}, {"id": "02-02", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-02.jpg", "text": "But there was a crafty snake in the garden. He asked the woman, \u201cDid God really tell you not to eat the fruit from any of the trees in the garden?\u201d"}, {"id": "02-03", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-03.jpg", "text": "The woman answered, \u201cGod told us we could eat the fruit of any tree except from the tree of the knowledge of good and evil. God told us, \u2018If you eat that fruit or even touch it, you will die.\u2019\u201d"}, {"id": "02-04", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-04.jpg", "text": "The snake responded to the woman, \u201cThat is not true! You will not die. God just knows that as soon as you eat it, you will be like God and will understand good and evil like he does.\u201d"}, {"id": "02-05", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-05.jpg", "text": "The woman saw that the fruit was beautiful and looked delicious. She also wanted to be wise, so she picked some of the fruit and ate it. Then she gave some to her husband, who was with her, and he ate it, too."}, {"id": "02-06", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-06.jpg", "text": "Suddenly, their eyes were opened, and they realized they were naked. They tried to cover their bodies by sewing leaves together to make clothes."}, {"id": "02-07", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-07.jpg", "text": "Then the man and his wife heard the sound of God walking through the garden. They both hid from God. Then God called to the man, \u201cWhere are you?\u201d Adam replied, \u201cI heard you walking in the garden, and I was afraid, because I was naked. So I hid.\u201d"}, {"id": "02-08", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-08.jpg", "text": "Then God asked, \u201cWho told you that you were naked? Did you eat the fruit I told you not to eat?\u201d The man answered, \u201cYou gave me this woman, and she gave me the fruit.\u201d Then God asked the woman, \u201cWhat have you done?\u201d The woman replied, \u201cThe snake tricked me.\u201d"}, {"id": "02-09", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-09.jpg", "text": "God said to the snake, \u201cYou are cursed! You will slide on your belly and eat dirt. You and the woman will hate each other, and your children and her children will hate each other, too. The woman\u2019s descendant will crush your head, and you will wound his heel.\u201d"}, {"id": "02-10", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-10.jpg", "text": "God then said to the woman, \u201cI will make childbirth very painful for you. You will desire your husband, and he will rule over you.\u201d"}, {"id": "02-11", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-11.jpg", "text": "God said to the man, \u201cYou listened to your wife and disobeyed me. Now the ground is cursed, and you will need to work hard to grow food. Then you will die, and your body will return to dirt.\u201d The man named his wife Eve, which means \u201clife-giver,\u201d because she would become the mother of all people. And God clothed Adam and Eve with animal skins."}, {"id": "02-12", "img": "https://api.unfoldingword.org/obs/jpg/1/en/360px/obs-en-02-12.jpg", "text": "Then God said, \u201cNow that the human beings have become like us by knowing good and evil, they must not be allowed to eat the fruit of the tree of life and live forever.\u201d So God sent Adam and Eve away from the beautiful garden. God placed powerful angels at the entrance to the garden to keep anyone from eating the fruit of the tree of life."}], "number": "02", "ref": "A Bible story from: Genesis 3", "title": "2. Sin Enters the World"}, ], "date_modified": "20150826", "direction": "ltr", "language": "en"});
         let props = {
@@ -255,6 +283,95 @@ describe('Container', () => {
                 expect(container.toc[1].chapter).toEqual('translate-manual');
                 expect(container.toc[2].chapter).toEqual('translate-terms');
                 expect(container.toc.length).toEqual(3);
+            });
+    });
+
+    it('should convert a tN resource', () => {
+        let data = JSON.stringify([
+            {
+                "id": "001-000",
+                "tn": []
+            },
+            {
+                "id": "001-001",
+                "tn": [
+                    {
+                        "ref": "General Information:",
+                        "text": "See: [[:en:ta:vol2:translate:writing_poetry]] and [[:en:ta:vol2:translate:figs_parallelism]]"
+                    },
+                    {
+                        "ref": "who does not walk in the advice of the wicked",
+                        "text": "The \"advice of the wicked\" is spoken of as if it were a path to follow. AT: \"who does not follow the advice of the wicked\" (See: [[:en:ta:vol1:translate:figs_metaphor]])"
+                    }
+                ]
+            },
+            {
+                "id": "001-003",
+                "tn": [
+                    {
+                        "ref": "General Information:",
+                        "text": "This passage introduces an elaborate image in which a righteous person is thought of in terms of a flourishing tree."
+                    },
+                    {
+                        "ref": "He will be like a tree ... fruit in its season",
+                        "text": "In the Bible, people are often spoken of as trees. People who delight in Yahweh's law can do all God wants them to do just as a tree that is planted by water produces good fruit. AT: \"He will be prosperous like a tree ... fruit in its season\" (See: [[:en:ta:vol1:translate:figs_simile]])"
+                    }
+                ]
+            },
+            {
+                "id": "002-000",
+                "tn": []
+            },
+            {
+                "id": "002-001",
+                "tn": [
+                    {
+                        "ref": "General Information:",
+                        "text": "See: [[:en:ta:vol2:translate:writing_poetry]] and [[:en:ta:vol2:translate:figs_parallelism]]"
+                    },
+                    {
+                        "ref": "Why are the nations in turmoil ... why do the peoples make plots that will fail?",
+                        "text": "These two clauses have similar meanings, and the \"nations\" and \"peoples\" refer to the same group of people. The words \"nations\" and \"peoples\" may represent their rulers. AT: \"Why are the leaders of the nations in turmoil and making plots that will fail?\" (See [[:en:ta:vol2:translate:figs_parallelism]] and [[:en:ta:vol2:translate:figs_metonymy]])"
+                    }
+                ]
+            }
+        ]);
+        let props = {
+            language: {
+                slug: 'en',
+                name: 'English'
+            },
+            project: {
+                slug: 'psa',
+                name: 'Psalms'
+            },
+            resource: {
+                slug: 'tn',
+                name: 'translationNotes',
+                type: 'help',
+                status: {
+                    license: 'CC BY-SA 4.0'
+                }
+            },
+            modified_at: 100,
+        };
+        return rc.tools.convertResource(data, 'tn_container', props)
+            .then(function(container) {
+                expect(container).not.toEqual(null);
+                expect(fileUtils.fileExists('tn_container/content/001')).toEqual(false);
+                expect(fileUtils.fileExists('tn_container/content/001/001.md')).toEqual(false);
+                expect(fileUtils.fileExists('tn_container/content/01/00.md')).toEqual(false);
+                expect(fileUtils.fileExists('tn_container/content/01/01.md')).toEqual(true);
+                expect(fileUtils.fileExists('tn_container/content/002')).toEqual(false);
+                expect(fileUtils.fileExists('tn_container/content/002/002.md')).toEqual(false);
+                expect(fileUtils.fileExists('tn_container/content/02/00.md')).toEqual(false);
+                expect(fileUtils.fileExists('tn_container/content/02/01.md')).toEqual(true);
+                expect(fileUtils.fileExists('tn_container/content/config.yml')).toEqual(true);
+                expect(fileUtils.fileExists('tn_container/package.json')).toEqual(true);
+                expect(container.info.project.slug).toEqual('psa');
+                expect(container.info.content_mime_type).toEqual('text/markdown');
+                expect(container.config).toEqual(null);
+                expect(container.toc.length).toEqual(0);
             });
     });
 });
