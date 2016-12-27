@@ -4,7 +4,7 @@
   "description": "A utility for managing Door43 Resource Containers",
   "main": "./lib/main.js",
   "scripts": {
-    "test": "jest; mocha mocha_tests/*.js"
+    "test": "jest; mocha mocha_tests/*/*.js"
   },
   "repository": {
     "type": "git",

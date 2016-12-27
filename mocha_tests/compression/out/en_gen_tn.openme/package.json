@@ -1,0 +1,31 @@
+{
+  "package_version": "0.1",
+  "modified_at": 20160901,
+  "content_mime_type": "text/markdown",
+  "language": {
+    "slug": "en",
+    "name": "English",
+    "direction": "ltr"
+  },
+  "project": {
+    "slug": "gen",
+    "name": "Genesis",
+    "desc": "",
+    "icon": "",
+    "sort": 1
+  },
+  "resource": {
+    "slug": "tn",
+    "name": "translationNotes",
+    "type": "help",
+    "status": {
+      "translate_mode": "gl",
+      "checking_level": "3",
+      "comments": "",
+      "pub_date": 20160830,
+      "license": "",
+      "version": "6"
+    }
+  },
+  "chunk_status": []
+}
