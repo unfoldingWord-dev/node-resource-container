@@ -1,17 +1,8 @@
 # resource-container
-A utility for managing Door43 Resource Containers. This follows the specification at http://resource-container.readthedocs.io/en/v0.1/.
+A utility for interacting with Door43 Resource Containers. This follows the specification at http://resource-container.readthedocs.io/en/v0.2/.
 
-Specifically, this library allows  you to interact with Resource Containers at an abstract level hiding most of the specification implementation.
-
-## Resource Containers
-A Resource Container is a modular/portable package of translation data.
-
-> NOTE: v0.1 of the Resource Container specification includes a spec for a file extension.
-> a **closed** Resource Container is a compressed archive with this extension.
-> An **open** Resource Container is the un-compressed directory.
-> Be sure to use the `open` and `close` methods as needed.
-> The compression and consequently the file extension will be deprecated in v0.2 at which point
-> clients will be responsible for extracting archives prior to using the resource-container library.
+## What is an RC?
+A Resource Container (RC) is a modular/portable package of translation data.
 
 ## Installation
 ```
@@ -19,55 +10,79 @@ npm install resource-container
 ```
 
 ## Usage
-There are a number of different methods available. If you need a complete list read the source.
-For the most part you'll be interested in the `load` method.
+To get started you must first load an RC. Then you can read/write as needed.
 
 ```js
-let rclib = require('resource-container');
+let rctool = require('resource-container');
 
-// just for fun... print the version of the resource container spec that is supported.
-console.log(rclib.tools.spec.version);
+console.log('This tool conforms to RC version ' + rctool.conformsto);
 
-// load an open container
 rclib.load('/path/to/resource/container/dir')
-    .then(function(container) {
-        // do stuff with your container!
-    });
-
-// open a compressed (closed) container
-rclib.open('/path/to/resource/container/archive.tsrc', '/output/container/dir')
-    .then(function(container) {
-        // do stuff with your container!
+    .then(function(rc) {
+        // some attributes have dedicated properties
+        console.log(rc.type);
+        
+        // other attributes are accessible from the manifest
+        console.log(rc.manifest.dublin_core.rights);
+        
+        // read
+        let chapter01title = rc.readChunk('01', 'title');
+        
+        // write
+        rc.writeChunk('front', 'title', 'Some book title');
     });
 ```
 
-Once you have your resource container object you can do all sorts of fun things
+### Multiple Projects
+
+It is possible for an RC to contain multiple projects.
+In such cases methods like writing and reading chunks will
+throw an error telling you to specify the project.
 
 ```js
-// access language, project, resource info like the slug etc.
-console.log(container.language.slug);
-console.log(container.project.slug);
-console.log(container.resource.slug);
+// assume rc contains the projects: gen, exo.
 
-// get chapter slugs (un-ordered). see toc for ordered.
-var chapterSlugs = container.chapters();
+// this throws an error
+rc.readChunk('01', 'title');
 
-// get chunk slugs (un-ordered). see toc for ordered.
-var chunkSlugs = container.chunks(chapterSlugs[0]);
+// you can check how many projects are in an rc
+console.log(rc.projectCount);
 
-// read chunk data
-var chunk = container.readChunk(chapterSlugs[0], chunkSlugs[0]);
+// this works as expected
+let chapter01title = rc.readChunk('gen', '01', 'title');
 
-// TODO: we need need to support writing a chunk
-// container.writeChunk('01', '01', 'In the beginning...');
+```
 
-// get the manifest
-var manifest = container.info();
+### Strict Mode
 
-// get the data configuration (map of associated data)
-var config = contianer.config();
+By default the tool will operate in strict mode when loading an RC. 
+This will perform some checks to ensure the RC is valid.
+If you need to look at an RC regardless of it's validity
+you can disable strict mode by passing in `false`.
 
-// get the table of contents (for ordered chapters and chunks)
-var toc = container.toc();
+```js
 
+rctool.load('/invalid/rc/dir/', false)
+    .then(function(rc) {
+        // do stuff with the invalid rc
+    });
+
+```
+
+### Creating an RC
+
+This tool also allows you to create a brand new RC.
+
+> NOTE: currently you must specify the complete manifest manually.
+> This might change a little in the future.
+
+```js
+let manifest = {
+    ...
+};
+
+rctool.create('/my/rc/dir/', manifest)
+    .then(function(rc) {
+        // do stuff with your new rc
+    });
 ```
