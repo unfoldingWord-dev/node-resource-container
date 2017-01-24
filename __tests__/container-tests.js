@@ -195,7 +195,14 @@ describe('Container', () => {
         let manifest = {
             dublin_core: {
                 type: 'book',
-                conformsto: 'rc0.2'
+                format: 'text/usfm',
+                identifier: 'en-me',
+                language: {
+                    identifier: 'en',
+                    title: 'English',
+                    direction: 'ltr'
+                },
+                rights: 'CC BY-SA 4.0'
             }
         };
 

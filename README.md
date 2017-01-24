@@ -1,6 +1,8 @@
 # resource-container
 A utility for interacting with Door43 Resource Containers. This follows the specification at http://resource-container.readthedocs.io/en/v0.2/.
 
+> NOTE: this tool is written using the ES6 standard.
+
 ## What is an RC?
 A Resource Container (RC) is a modular/portable package of translation data.
 
