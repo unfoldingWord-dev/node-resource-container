@@ -161,7 +161,7 @@ describe('Container', () => {
             });
     });
 
-    it('should open a missing rc when not in strict mode', () => {
+    it('should load a missing rc when not in strict mode', () => {
         let dir = 'res/missing_container';
 
         fs.writeFileSync(dir);
