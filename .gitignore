@@ -38,4 +38,5 @@ jspm_packages
 
 .idea
 
-mocha_tests/compression/out
+/mocha_tests/compression/out
+/mocha_tests/out

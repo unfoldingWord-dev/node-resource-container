@@ -157,7 +157,7 @@ describe('Container', () => {
                 expect(container).toEqual(null);
             })
             .catch(function(err) {
-                expect(err.message).toEqual('Not a resource container');
+                expect(err.message).toEqual('Not a resource container. Missing required key: dublin_core.conformsto');
             });
     });
 
