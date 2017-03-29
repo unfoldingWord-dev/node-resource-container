@@ -186,6 +186,9 @@ describe('Container', () => {
             .then(function(updatedrc) {
                 expect(updatedrc.readChunk('02', '03')).toEqual(chunkText);
                 expect(updatedrc.readChunk('03', '01')).toEqual(chunkText);
+
+                updatedrc.writeChunk('03', '01', '');
+                expect(updatedrc.readChunk('03', '01')).toEqual('');
             });
     });
 
