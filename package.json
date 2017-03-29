@@ -5,7 +5,7 @@
   "description": "A utility for managing Door43 Resource Containers",
   "main": "./lib/main.js",
   "scripts": {
-    "test": "jest; mocha mocha_tests/*/*.js"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,6 @@
   "homepage": "https://github.com/unfoldingWord-dev/node-resource-container#readme",
   "devDependencies": {
     "jest": "^13.2.3",
-    "mocha": "^3.1.2",
     "ncp": "^2.0.0"
   },
   "dependencies": {

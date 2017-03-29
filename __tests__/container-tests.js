@@ -6,7 +6,6 @@ jest.mock('mkdirp');
 jest.unmock('compare-versions');
 jest.unmock('../lib/utils/files');
 jest.unmock('yamljs');
-jest.unmock('../lib/utils/promises');
 jest.unmock('../lib/main');
 jest.unmock('../lib/rc');
 
