@@ -11,12 +11,12 @@ jest.unmock('../lib/rc');
 
 describe('Container', () => {
     let fs;
-    let rcTool;
+    let factory;
     let fileUtils;
 
     beforeEach(() => {
         fs = require('fs');
-        rcTool = require('../');
+        factory = require('../');
         fileUtils = require('../lib/utils/files');
     });
 
@@ -114,7 +114,7 @@ describe('Container', () => {
 
         makeRC(rc_dir);
 
-        return rcTool.load(rc_dir)
+        return factory.load(rc_dir)
             .then(function(container) {
                 expect(container.path).toEqual(rc_dir);
                 expect(container.chapters().length).toEqual(2);
@@ -129,7 +129,7 @@ describe('Container', () => {
 
         makeRC(dir, true);
 
-        return rcTool.load(dir)
+        return factory.load(dir)
             .then(function(container) {
                 expect(container.projectCount).toEqual(2);
                 expect(container.path).toEqual(dir);
@@ -151,7 +151,7 @@ describe('Container', () => {
 
         fs.writeFileSync(dir);
 
-        return rcTool.load(dir)
+        return factory.load(dir)
             .then(function(container) {
                 expect(container).toEqual(null);
             })
@@ -165,7 +165,7 @@ describe('Container', () => {
 
         fs.writeFileSync(dir);
 
-        return rcTool.load(dir, false)
+        return factory.load(dir, false)
             .then(function(container) {
                 expect(container).not.toEqual(null);
             });
@@ -177,7 +177,7 @@ describe('Container', () => {
 
         makeRC(dir);
 
-        return rcTool.load(dir)
+        return factory.load(dir)
             .then(function(container) {
                 container.writeChunk('02', '03', chunkText);
                 container.writeChunk('03', '01', chunkText);
@@ -205,9 +205,9 @@ describe('Container', () => {
             }
         };
 
-        return rcTool.create(dir, manifest)
+        return factory.create(dir, manifest)
             .then(function (container) {
-                expect(container.conformsTo).toEqual(rcTool.conformsto);
+                expect(container.conformsTo).toEqual(factory.conformsto);
                 expect(container.type).toEqual('book');
             });
     });
@@ -231,12 +231,12 @@ describe('Container', () => {
             projects: []
         }));
 
-        return rcTool.load(container_path)
+        return factory.load(container_path)
             .then(function(container) {
                 expect(container).toEqual(null);
             })
             .catch(function(err) {
-                expect(err.message).toEqual('Outdated resource container version. Found 0.1 but expected ' + rcTool.conformsto);
+                expect(err.message).toEqual('Outdated resource container version. Found 0.1 but expected ' + factory.conformsto);
             });
     });
 
@@ -259,12 +259,12 @@ describe('Container', () => {
             projects: []
         }));
 
-        return rcTool.load(container_path)
+        return factory.load(container_path)
             .then(function(container) {
                 expect(container).toEqual(null);
             })
             .catch(function(err) {
-                expect(err.message).toEqual('Unsupported resource container version. Found 999.1 but expected ' + rcTool.conformsto);
+                expect(err.message).toEqual('Unsupported resource container version. Found 999.1 but expected ' + factory.conformsto);
             });
     });
 
@@ -273,7 +273,7 @@ describe('Container', () => {
 
         makeRC(dir, true);
 
-        return rcTool.load(dir)
+        return factory.load(dir)
             .then(function(container) {
                 try {
                     expect(container.chapters().length).toEqual(-1);
@@ -301,4 +301,73 @@ describe('Container', () => {
             });
     });
 
+    it('should write a toc with a project', () => {
+        let dir = 'res/big_toc_container';
+        makeRC(dir, true);
+
+        let toc = [{key:'value'},{key:'value'}];
+
+        return factory.load(dir)
+            .then(function(rc) {
+                rc.writeTOC('gen', toc);
+                expect(rc.toc('gen')).toEqual(toc);
+
+                try {
+                    rc.writeTOC(toc);
+                    expect(1).toEqual(0);
+                } catch(e) {
+                    expect(e.message).toEqual('Multiple projects found. Specify the project identifier.')
+                }
+            });
+    });
+
+    it('should write a toc without a project', () => {
+        let dir = 'res/toc_container';
+        makeRC(dir, false);
+
+        let toc = [{key:'value'},{key:'value'}];
+
+        return factory.load(dir)
+            .then(function(rc) {
+                rc.writeTOC(toc);
+                expect(rc.toc()).toEqual(toc);
+                rc.writeTOC('');
+                expect(rc.toc()).toEqual(null);
+            });
+    });
+
+    it('should write a config with a project', () => {
+        let dir = 'res/big_config_container';
+        makeRC(dir, true);
+
+        let config = {key:'value'};
+
+        return factory.load(dir)
+            .then(function(rc) {
+                rc.writeConfig('gen', config);
+                expect(rc.config('gen')).toEqual(config);
+
+                try {
+                    rc.writeConfig(config);
+                    expect(1).toEqual(0);
+                } catch(e) {
+                    expect(e.message).toEqual('Multiple projects found. Specify the project identifier.')
+                }
+            });
+    });
+
+    it('should write a config without a project', () => {
+        let dir = 'res/config_container';
+        makeRC(dir, false);
+
+        let config = {key:'value'};
+
+        return factory.load(dir)
+            .then(function(rc) {
+                rc.writeConfig(config);
+                expect(rc.config()).toEqual(config);
+                rc.writeConfig('');
+                expect(rc.config()).toEqual(null);
+            });
+    });
 });

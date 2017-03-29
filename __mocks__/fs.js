@@ -9,6 +9,7 @@ let disk = {};
  * @param data
  */
 function writePath(parentDir, path, data) {
+    path = path.replace(/\/+/g, '/').replace(/\/+$/, '');
     let files = path.split('/');
     let file = files.shift();
 
@@ -35,7 +36,7 @@ function readPath(parentDir, path) {
     let files = path.split('/');
     let file = files.shift();
 
-    if(!parentDir[file]) throw new Error(path);
+    if(!parentDir[file]) throw new Error('File does not exist: ' + path);
 
     if(files.length > 0) {
         try {
@@ -45,6 +46,40 @@ function readPath(parentDir, path) {
         }
     } else {
         return parentDir[file];
+    }
+}
+
+function unlink(parentDir, path) {
+    path = path.replace(/\/+/g, '/').replace(/\/+$/, '');
+    let files = path.split('/');
+    let file = files.shift();
+
+    if(!parentDir[file]) return;
+
+    if(files.length > 0) {
+        return unlink(parentDir[file].tree, files.join('/'));
+    } else {
+        delete parentDir[file];
+    }
+}
+
+function stat(path, callback) {
+    try {
+        // check that path exists
+        readPath(disk, path);
+        let stats = {
+            isFile: jest.fn(function() {
+                let content = readPath(disk, path).content;
+                return content !== null && content !== undefined;
+            }),
+            isDirectory: jest.fn(function() {
+                let content = readPath(disk, path).content;
+                return content === null || content === undefined;
+            })
+        };
+        callback(null, stats);
+    } catch(err) {
+        callback(err, null);
     }
 }
 
@@ -59,12 +94,26 @@ module.exports = {
             callback(null);
         }, 0);
     }),
+    stat: jest.fn(stat),
+    lstat: jest.fn(stat),
     mkdirSync: jest.fn(function(path, opts) {
         // This is cheating because mkdirSync does not work recursively.
         writePath(disk, path, null);
     }),
     readFileSync: jest.fn(function(path, opts) {
         return readPath(disk, path).content;
+    }),
+    readdir: jest.fn(function(path, options, callback) {
+        if(typeof options === 'function') {
+            callback = options;
+            options = {};
+        }
+        try {
+            let file = readPath(disk, path);
+            callback(null, Object.keys(file.tree));
+        } catch(err) {
+            callback(err, []);
+        }
     }),
     readdirSync: jest.fn(function(dir) {
         let tree = readPath(disk, dir).tree;
@@ -85,5 +134,8 @@ module.exports = {
                 return contents === null || contents === undefined;
             })
         };
+    }),
+    unlinkSync: jest.fn(function(path) {
+        unlink(disk, path);
     })
 };
