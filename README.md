@@ -15,11 +15,11 @@ npm install resource-container
 To get started you must first load an RC. Then you can read/write as needed.
 
 ```js
-let rctool = require('resource-container');
+let factory = require('resource-container');
 
-console.log('This tool conforms to RC version ' + rctool.conformsto);
+console.log('This tool conforms to RC version ' + factory.conformsto);
 
-rclib.load('/path/to/resource/container/dir')
+factory.load('/path/to/resource/container/dir')
     .then(function(rc) {
         // some attributes have dedicated properties
         console.log(rc.type);
@@ -64,7 +64,7 @@ you can disable strict mode by passing in `false`.
 
 ```js
 
-rctool.load('/invalid/rc/dir/', false)
+factory.load('/invalid/rc/dir/', false)
     .then(function(rc) {
         // do stuff with the invalid rc
     });
@@ -83,7 +83,7 @@ let manifest = {
     ...
 };
 
-rctool.create('/my/rc/dir/', manifest)
+factory.create('/my/rc/dir/', manifest)
     .then(function(rc) {
         // do stuff with your new rc
     });
