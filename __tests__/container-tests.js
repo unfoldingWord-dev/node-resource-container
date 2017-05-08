@@ -3,11 +3,14 @@
 jest.mock('fs');
 jest.mock('rimraf');
 jest.mock('mkdirp');
+jest.unmock('path');
 jest.unmock('compare-versions');
 jest.unmock('../lib/utils/files');
 jest.unmock('yamljs');
 jest.unmock('../lib/main');
 jest.unmock('../lib/rc');
+
+const path = require('path');
 
 describe('Container', () => {
     let fs;
@@ -189,6 +192,30 @@ describe('Container', () => {
 
                 updatedrc.writeChunk('03', '01', '');
                 expect(updatedrc.readChunk('03', '01')).toEqual('');
+            });
+    });
+
+    it('should write an empty chunk when needlessly specifying the project', () => {
+        let dir = 'res/empty_chunk_container';
+
+        makeRC(dir);
+
+        return factory.load(dir)
+            .then(function(container) {
+                container.writeChunk('gen', '02', '03', '');
+                container.writeChunk('gen', '05', '01', '');
+                return Promise.resolve(container);
+            })
+            .then(function(updatedrc) {
+                let invalidPath = path.join(updatedrc.path, 'gen', 'gen', '02.usfm');
+                expect(updatedrc.readChunk('02', '03')).toEqual('');
+                try {
+                    expect(fs.statSync(invalidPath).isFile()).not.toBeTruthy();
+                } catch(e) {
+                    // the arguments were not handled correctly
+                    expect(e.message).toContain('file does not exist');
+                }
+                expect(updatedrc.readChunk('05', '01')).toEqual('');
             });
     });
 
